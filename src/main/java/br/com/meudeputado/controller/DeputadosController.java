@@ -1,5 +1,6 @@
 package br.com.meudeputado.controller;
 
+import br.com.meudeputado.enums.ApiUrl;
 import br.com.meudeputado.pojo.DeputadoDetalhado;
 import br.com.meudeputado.pojo.ListaDeputadoDetalhado;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -26,9 +27,10 @@ public class DeputadosController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Deputado> list() throws Exception {
+
         List<Deputado> deputadosList = new ArrayList<Deputado>();
 
-        String genreXml = IOUtils.toString(new URL(API_URL + "ObterDeputados"), "UTF-8");
+        String genreXml = IOUtils.toString(new URL(API_URL + ApiUrl.OBTER_DEPUTADOS), "UTF-8");
 
         XmlMapper mapper = new XmlMapper();
         List<Deputado> deputados = mapper.readValue(genreXml,
@@ -42,7 +44,7 @@ public class DeputadosController {
     public DeputadoDetalhado get(@PathVariable String ideCadastro, @PathVariable String numLegislatura) throws Exception {
 
         if (ideCadastro != null && numLegislatura != null) {
-            String genreXml = IOUtils.toString(new URL(API_URL + "ObterDetalhesDeputado?ideCadastro=" +
+            String genreXml = IOUtils.toString(new URL(API_URL + ApiUrl.OBTER_DETALHES_DEPUTADO + "?ideCadastro=" +
                     ideCadastro + "&numLegislatura=" + numLegislatura), "UTF-8");
             XmlMapper mapper = new XmlMapper();
             ListaDeputadoDetalhado listaDeputadoDetalhado = mapper.readValue(genreXml, ListaDeputadoDetalhado.class);
